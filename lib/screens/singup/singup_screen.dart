@@ -1,16 +1,18 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:xlo_mobx/screens/singup/singup_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:xlo_mobx/screens/singup/components/field_title.dart';
 
-class LoginScreen extends StatelessWidget {
+class SingUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Entrar'),
+        title: const Text("Cadastro"),
         centerTitle: true,
       ),
       body: Container(
-        alignment: Alignment.center,
         child: SingleChildScrollView(
           child: Card(
             margin: const EdgeInsets.symmetric(horizontal: 32),
@@ -22,59 +24,53 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'Acessar com E-mail: ',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[900],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 3, bottom: 4, top: 8),
-                    child: Text(
-                      'Email',
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+                  FieldTitle(
+                    title: 'Apelido',
+                    subtitle: 'Como aparecerá em seus anúncios.',
                   ),
                   TextField(
                     decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
+                      border: OutlineInputBorder(),
+                      hintText: 'Exemplo: João S.',
+                      isDense: true,
+                    ),
+                  ),
+                  const SizedBox(height: 16,),
+                  FieldTitle(
+                    title: 'E-mail',
+                    subtitle: 'Enviaremos em e-mail de confirmação.',
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Exemplo: joao@gmail.com.',
                       isDense: true,
                     ),
                     keyboardType: TextInputType.emailAddress,
+                    autocorrect: false,
                   ),
-                  SizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 3, bottom: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Senha',
-                          style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700
-                          ),
-                        ),
-                        GestureDetector(
-                          child: Text(
-                            'Esqueceu sua senha?',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.purple
-                            ),
-                          ),
-                        ),
-                      ],
+                  const SizedBox(height: 16,),
+                  FieldTitle(
+                    title: 'Celular',
+                    subtitle: 'Proteja sua conta.',
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: '(99) 99999-9999',
+                      isDense: true,
                     ),
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      WhitelistingTextInputFormatter.digitsOnly,
+                      TelefoneInputFormatter()
+                    ],
+                  ),
+                  const SizedBox(height: 16,),
+                  FieldTitle(
+                    title: 'Senha',
+                    subtitle: 'Use letras, números e caracteres especiasi.',
                   ),
                   TextField(
                     decoration: InputDecoration(
@@ -83,7 +79,18 @@ class LoginScreen extends StatelessWidget {
                     ),
                     obscureText: true,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16,),
+                  FieldTitle(
+                    title: 'Confirmar Senha',
+                    subtitle: 'Repita a senha.',
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      isDense: true,
+                    ),
+                    obscureText: true,
+                  ),
                   Container(
                     height: 40,
                     margin: const EdgeInsets.only(top: 20, bottom: 12),
@@ -91,13 +98,12 @@ class LoginScreen extends StatelessWidget {
                       color: Colors.orange,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)
+                          borderRadius: BorderRadius.circular(20)
                       ),
                       onPressed: () {
-
                       },
                       child: Text(
-                        'ENTRAR',
+                        'CADASTRE-SE',
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -117,10 +123,10 @@ class LoginScreen extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => SingUpScreen()));
+                                builder: (_) => SingUpScreen()));
                           },
                           child: Text(
-                            'Cadastre-se',
+                            'Entrar',
                             style:  TextStyle(
                               decoration: TextDecoration.underline,
                               color: Colors.purple,
@@ -131,7 +137,7 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
                   )
-                ]
+                ],
               ),
             ),
           ),
