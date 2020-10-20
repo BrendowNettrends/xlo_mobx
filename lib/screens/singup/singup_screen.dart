@@ -37,6 +37,7 @@ class SingUpScreen extends StatelessWidget {
                   ),
                   Observer(builder: (_) {
                     return TextField(
+                      enabled: !singupStore.loading,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Exemplo: João S.',
@@ -53,6 +54,7 @@ class SingUpScreen extends StatelessWidget {
                   ),
                   Observer(builder: (_) {
                     return TextField(
+                      enabled: !singupStore.loading,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Exemplo: joao@gmail.com.',
@@ -71,11 +73,14 @@ class SingUpScreen extends StatelessWidget {
                   ),
                   Observer(builder: (_) {
                     return TextField(
+                      enabled: !singupStore.loading,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: '(99) 99999-9999',
                         isDense: true,
+                        errorText: singupStore.phoneError,
                       ),
+                      onChanged: singupStore.setPhone,
                       keyboardType: TextInputType.phone,
                       inputFormatters: [
                         WhitelistingTextInputFormatter.digitsOnly,
@@ -90,6 +95,7 @@ class SingUpScreen extends StatelessWidget {
                   ),
                   Observer(builder: (_) {
                     return TextField(
+                      enabled: !singupStore.loading,
                       decoration: InputDecoration(
                           border: const OutlineInputBorder(),
                           isDense: true,
@@ -106,6 +112,7 @@ class SingUpScreen extends StatelessWidget {
                   ),
                   Observer(builder: (_) {
                     return TextField(
+                      enabled: !singupStore.loading,
                       decoration: InputDecoration(
                           border: const OutlineInputBorder(),
                           isDense: true,
@@ -121,13 +128,17 @@ class SingUpScreen extends StatelessWidget {
                       margin: const EdgeInsets.only(top: 20, bottom: 12),
                       child: RaisedButton(
                         color: Colors.orange,
+                        disabledColor: Colors.orange.withAlpha(120),
                         elevation: 0,
-                        child: Text('CADASTRE-SE'),
+                        child: singupStore.loading ?
+                          CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                        ) : Text('CADASTRE-SE'),
                         textColor: Colors.white,
-                        shape: RoundedRectangleBorder(
+                        shape:RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)
                         ),
-                        onPressed: singupStore.isFormValid ? () {} : null,
+                        onPressed: singupStore.isFormValid ? singupStore.signUpPressed : null,
                       ),
                     );
                   }),
